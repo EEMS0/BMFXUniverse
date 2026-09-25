@@ -1,0 +1,304 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ */
+/* Design tokens                                                      */
+/* Accent values are sampled from the supplied artwork (see README).  */
+/* ------------------------------------------------------------------ */
+@theme {
+  /* Surfaces */
+  --color-ink-950: #060509;
+  --color-ink-900: #0b0a0f;
+  --color-ink-850: #100e15;
+  --color-ink-800: #16131c;
+  --color-ink-700: #1f1b27;
+  --color-ink-600: #2c2736;
+  --color-ink-500: #3d374a;
+
+  /* Text */
+  --color-paper: #f3eee6; /* primary text, off-white */
+  --color-haze: #cdc6d9; /* secondary text */
+  --color-smoke: #a59eb4; /* meta text, >= 4.5:1 on ink-800 and darker */
+
+  /* EEMS: wallpaper.png lettering + glow, merch / SYMPTOMS / Eemsoji art */
+  --color-eems-yellow: #f2d31b;
+  --color-eems-blue: #4a74e6;
+  --color-violet: #a07cff;
+  --color-violet-deep: #3f2275;
+  --color-lilac: #b99cf0;
+  --color-magenta: #e043d2;
+  --color-pink: #ff6db8;
+  --color-bubblegum: #f5bde6;
+
+  /* BMFX: bmbm.png / BMFX-v3.png */
+  --color-acid: #9dfb58;
+  --color-acid-deep: #3d7a20;
+  --color-orbit: #ff8a3d;
+
+  /* Collage */
+  --color-scrap: #ebe4d8;
+  --color-ember: #ff5236;
+
+  /* Shadows */
+  --shadow-lift: 0 24px 50px -26px rgb(0 0 0 / 0.95);
+  --shadow-card: 0 14px 30px -18px rgb(0 0 0 / 0.9);
+  --shadow-acid: 0 0 0 1px rgb(157 251 88 / 0.5), 0 10px 30px -12px rgb(157 251 88 / 0.6);
+  --shadow-violet: 0 0 0 1px rgb(160 124 255 / 0.5), 0 10px 30px -12px rgb(160 124 255 / 0.6);
+  --shadow-orbit: 0 0 0 1px rgb(255 138 61 / 0.55), 0 10px 30px -12px rgb(255 138 61 / 0.55);
+
+  /* Motion */
+  --ease-snap: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+
+  /* Type details */
+  --tracking-label: 0.14em;
+  --tracking-nav: 0.12em;
+}
+
+@theme inline {
+  --font-sans: var(--font-grotesk), ui-sans-serif, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-marker: var(--font-marker-face), 'Segoe Print', 'Comic Sans MS', cursive;
+  --font-hand: var(--font-hand-face), 'Segoe Print', 'Bradley Hand', cursive;
+}
+
+:root {
+  /* Layout tokens */
+  --header-height: 4rem;
+  --gutter: 1rem;
+  --section-space: clamp(4rem, 7vw, 6.25rem);
+  --content-max: 105rem;
+}
+
+@media (width >= 40rem) {
+  :root {
+    --gutter: 1.5rem;
+  }
+}
+@media (width >= 64rem) {
+  :root {
+    --gutter: 2rem;
+    --header-height: 4.5rem;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                               */
+/* ------------------------------------------------------------------ */
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-padding-top: calc(var(--header-height) + 1.25rem);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    background-color: var(--color-ink-950);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    min-height: 100dvh;
+    background-color: var(--color-ink-900);
+    background-image: url('../assets/textures/grain.png');
+    background-size: 160px 160px;
+    color: var(--color-paper);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: var(--color-acid);
+    color: var(--color-ink-950);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-acid);
+    outline-offset: 3px;
+  }
+
+  /* Programmatic focus targets (sections after in-page navigation) need no ring. */
+  [tabindex='-1']:focus {
+    outline: none;
+  }
+
+  /* Modal dialogs (menu, viewer) lock page scroll while open. */
+  html:has(dialog[open]:modal) {
+    overflow: hidden;
+  }
+
+  button,
+  [role='button'] {
+    cursor: pointer;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Reusable pieces                                                    */
+/* ------------------------------------------------------------------ */
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: var(--content-max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .section {
+    padding-block: var(--section-space);
+    position: relative;
+  }
+
+  /* Small uppercase label above headings and on captions. */
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-smoke);
+  }
+
+  .grain {
+    background-image: url('../assets/textures/grain.png');
+    background-size: 160px 160px;
+  }
+
+  /* Torn paper scrap: violet sheet with crumple shading and grain. */
+  .scrap-violet {
+    background-color: #3a1c6e;
+    background-image:
+      url('../assets/textures/grain.png'),
+      url('../assets/textures/crumple.png'),
+      radial-gradient(120% 90% at 18% 12%, rgb(197 160 255 / 0.28), transparent 55%),
+      linear-gradient(150deg, #4a2390 0%, #33165f 55%, #1f0c3d 100%);
+    background-size:
+      160px 160px,
+      560px 560px,
+      100% 100%,
+      100% 100%;
+    background-blend-mode: normal, soft-light, normal, normal;
+  }
+
+  .scrap-ink {
+    background-color: #1a1721;
+    background-image: url('../assets/textures/grain.png'), url('../assets/textures/crumple.png');
+    background-size:
+      160px 160px,
+      520px 520px;
+    background-blend-mode: normal, soft-light;
+  }
+
+  .scrap-paper {
+    background-color: var(--color-scrap);
+    background-image: url('../assets/textures/grain.png'), url('../assets/textures/crumple.png');
+    background-size:
+      160px 160px,
+      420px 420px;
+    background-blend-mode: normal, soft-light;
+  }
+
+  /* Visually hidden but available to assistive technology. */
+  .sr-only-focusable:not(:focus-visible) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Motion. Everything here is decorative; content is fully visible    */
+/* without it, and it is removed for prefers-reduced-motion.         */
+/* ------------------------------------------------------------------ */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    translate: 0 1.75rem;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes crt-sweep {
+  0% {
+    transform: translateY(-120%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(120%);
+    opacity: 0;
+  }
+}
+
+@keyframes crt-sweep-again {
+  0% {
+    transform: translateY(-120%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(120%);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      /* Finishes early in the element's journey so tall blocks are opaque while read. */
+      animation-range: cover 0% cover 14%;
+    }
+  }
+}
+
+/* One short light sweep across the CRT on load (< 3s, then still), and again on hover. */
+.crt-sweep {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent 0%, rgb(210 255 190 / 0.13) 45%, rgb(255 255 255 / 0.2) 50%, transparent 58%);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .crt-sweep {
+    animation: crt-sweep 2.4s var(--ease-soft) 0.9s 1 both;
+  }
+  .group:hover .crt-sweep,
+  .group:focus-within .crt-sweep {
+    animation: crt-sweep-again 1.6s var(--ease-soft) 1 both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

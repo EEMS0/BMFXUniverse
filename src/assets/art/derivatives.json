@@ -1,0 +1,147 @@
+{
+  "generatedBy": "scripts/build-art.mjs",
+  "sourceDir": "..\\EEMS_BMFX_Website_Build_Pack\\original-assets",
+  "missing": [],
+  "derivatives": [
+    {
+      "output": "src/assets/art/eems-wordmark.webp",
+      "source": "wallpaper.png",
+      "sourceFormat": "png",
+      "sourceSize": "2048x1152",
+      "sourceSha256": "1fe00768c6723b17e92f769e1b498fe26b572d99897d63e9501074a0cfa8c33b",
+      "checksum": "verified",
+      "outputSize": "1400x840",
+      "outputBytes": 944114
+    },
+    {
+      "output": "src/assets/art/eems-portrait.webp",
+      "source": "EEMS-ghoul.png",
+      "sourceFormat": "png",
+      "sourceSize": "1174x1174",
+      "sourceSha256": "a8ff6a601b94f8ccdca15ca066c51ce02267ad82b2aec87b3bdfa6d99a236df5",
+      "checksum": "verified",
+      "outputSize": "1174x1174",
+      "outputBytes": 292478
+    },
+    {
+      "output": "src/assets/art/bmfx-crt.webp",
+      "source": "BMFX-v3.png",
+      "sourceFormat": "png",
+      "sourceSize": "2048x2048",
+      "sourceSha256": "dc6327dba694f45474fe459bb17641933578c634ce39f0df0c650678a64cbe36",
+      "checksum": "verified",
+      "outputSize": "1600x1600",
+      "outputBytes": 836572
+    },
+    {
+      "output": "src/assets/art/bmfx-logo.webp",
+      "source": "bmbm.png",
+      "sourceFormat": "png",
+      "sourceSize": "2048x2048",
+      "sourceSha256": "4951932bb81212cdf9bf7b3bb139f2a7b913ae43eb9a9868d359370f81756984",
+      "checksum": "verified",
+      "outputSize": "1200x1041",
+      "outputBytes": 180292
+    },
+    {
+      "output": "src/assets/art/merch-artwork.webp",
+      "source": "BACK-MERCH.png",
+      "sourceFormat": "png",
+      "sourceSize": "1536x2048",
+      "sourceSha256": "1485d5171bc384ec598291c28997cdfbe7a12183aa88de67e1e2fb21b70ea17a",
+      "checksum": "verified",
+      "outputSize": "1536x2048",
+      "outputBytes": 461368
+    },
+    {
+      "output": "src/assets/art/eems-characters.webp",
+      "source": "Untitled45.png",
+      "sourceFormat": "png",
+      "sourceSize": "1984x1675",
+      "sourceSha256": "5df91d4f77a0e64aeb3222a77282c080ef48acbad599501ec4664c25b770518f",
+      "checksum": "verified",
+      "outputSize": "1600x1351",
+      "outputBytes": 128054
+    },
+    {
+      "output": "src/assets/art/swag-bag.webp",
+      "source": "swagbag-s3.png",
+      "sourceFormat": "png",
+      "sourceSize": "2000x2000",
+      "sourceSha256": "505b7978d350358e9f6d690c466b9a1491cc0e229122f7302c9e141e68327e9b",
+      "checksum": "verified",
+      "outputSize": "1600x1600",
+      "outputBytes": 326296
+    },
+    {
+      "output": "src/assets/art/eems-atmosphere.webp",
+      "source": "eems.png",
+      "sourceFormat": "png",
+      "sourceSize": "2048x1433",
+      "sourceSha256": "7e1a398c6637a1d9f3386097b3d20d045b4a799aa83792295b6e4454d9d19102",
+      "checksum": "verified",
+      "outputSize": "1800x1259",
+      "outputBytes": 78596
+    },
+    {
+      "output": "src/assets/art/symptoms.webp",
+      "source": "Symptoms-album-art.png",
+      "sourceFormat": "png",
+      "sourceSize": "2048x2048",
+      "sourceSha256": "cdfb3b0c02d9e1e95b870fbdff2e2ba68471435a53222a2909847096ae2f05ba",
+      "checksum": "verified",
+      "outputSize": "1600x1600",
+      "outputBytes": 558610
+    },
+    {
+      "output": "src/assets/art/eemoji-smirk.webp",
+      "source": "Eemsojis_20240801120211.png",
+      "sourceFormat": "png",
+      "sourceSize": "2048x2048",
+      "sourceSha256": "d8ced4f5141ac9e3cfdee65bd9a4da95caf248d0679d6eb8c3676451d3c85759",
+      "checksum": "verified",
+      "outputSize": "828x900",
+      "outputBytes": 87704
+    },
+    {
+      "output": "src/assets/art/eemoji-annoyed.webp",
+      "source": "Eemsojis_20240801120149.png",
+      "sourceFormat": "png",
+      "sourceSize": "2048x2048",
+      "sourceSha256": "208915d341da4e62933bc0c2b849ce65619821e6eabf2f2beaf06da7ede77651",
+      "checksum": "verified",
+      "outputSize": "828x900",
+      "outputBytes": 88204
+    },
+    {
+      "output": "src/assets/art/eemoji-worried.webp",
+      "source": "Eemsojis_20240801120204.png",
+      "sourceFormat": "png",
+      "sourceSize": "2048x2048",
+      "sourceSha256": "d3c9be90009345495a6de5db50ad23a87af32743f802c2a7ee97986686bc9e88",
+      "checksum": "verified",
+      "outputSize": "828x900",
+      "outputBytes": 87336
+    },
+    {
+      "output": "src/assets/art/eemoji-grin.webp",
+      "source": "5.PNG",
+      "sourceFormat": "png",
+      "sourceSize": "2048x2048",
+      "sourceSha256": "fb270c63cbab0675377ad643e6d433962779af51fbe5e821f32762d26d84f244",
+      "checksum": "verified",
+      "outputSize": "828x900",
+      "outputBytes": 89306
+    },
+    {
+      "output": "src/assets/art/character-portrait.webp",
+      "source": "5.gif",
+      "sourceFormat": "png",
+      "sourceSize": "1878x2048",
+      "sourceSha256": "07dd0da106d4eea334a678e20819005ef500ae754d1238c06b3db652ee42dedf",
+      "checksum": "verified",
+      "outputSize": "1284x1400",
+      "outputBytes": 83428
+    }
+  ]
+}

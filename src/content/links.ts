@@ -4,6 +4,7 @@
  * Never put placeholder or guessed accounts here.
  */
 import type { SocialLink, SocialPlatform } from './types'
+import { withBase } from '@/lib/paths'
 
 export const socialLinks: SocialLink[] = [
   {
@@ -38,7 +39,7 @@ export const socialLinks: SocialLink[] = [
 export const publicContactEmail: string | null = null
 
 /** Merchandise shop. When set, the Art & merch section links to it. */
-export const merchShopUrl: string | null = null
+export const merchShopUrl: string | null = withBase('/merch.html')
 
 /**
  * Where "Listen now" in the hero goes. Defaults to the Music section; set to a

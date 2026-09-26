@@ -7,6 +7,7 @@ import { mainNav } from '@/content/navigation'
 import { categoriesWithEntries, featuredWork, getPublicProject, projects, publicProjects } from '@/content/projects'
 import { enquiryServiceIds, services } from '@/content/services'
 import type { ArtworkId } from '@/content/types'
+import { withBase } from '@/lib/paths'
 
 describe('artwork registry', () => {
   it('describes every artwork and records its supplied source file', () => {
@@ -67,8 +68,11 @@ describe('links and availability flags', () => {
     expect(socialLinks.find((link) => link.platform === 'spotify')?.url).toBeNull()
     expect(socialLinks.find((link) => link.platform === 'youtube')?.url).toBeNull()
     expect(publicContactEmail).toBeNull()
-    expect(merchShopUrl).toBeNull()
     expect(configuredSocialLinks().map((link) => link.platform)).toEqual(['instagram', 'tiktok', 'soundcloud'])
+  })
+
+  it('links merchandise to the shop on this website', () => {
+    expect(merchShopUrl).toBe(withBase('/merch.html'))
   })
 
   it('points "Listen now" at the Music section by default', () => {

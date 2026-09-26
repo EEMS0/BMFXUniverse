@@ -10,8 +10,7 @@ import { copy } from '@/content/site'
 const artList = ['eems-merch-artwork', 'eems-characters', 'eemsojis', 'pink-haired-character']
 
 /**
- * Art & merch showcase. The merch design is shown as artwork only: there are
- * no products, prices or checkout until a real shop link is configured.
+ * Art showcase with a link to the Shopify-powered merch page.
  */
 export function ArtSection() {
   return (
@@ -23,6 +22,9 @@ export function ArtSection() {
           <SectionHeading id="art-title" eyebrow={copy.art.eyebrow} title={copy.art.heading} tone="pink" className="reveal">
             <p>{copy.art.body}</p>
           </SectionHeading>
+          {merchShopUrl ? (
+            <ButtonLink href={merchShopUrl} variant="outline-violet">Shop merch</ButtonLink>
+          ) : null}
           <Sparkle aria-hidden="true" className="hidden w-14 rotate-12 text-bubblegum/70 md:block" />
         </div>
 
@@ -56,8 +58,8 @@ export function ArtSection() {
         </div>
 
         {merchShopUrl ? (
-          <ButtonLink href={merchShopUrl} external variant="outline-violet" className="mt-10">
-            Visit the merch shop
+          <ButtonLink href={merchShopUrl} variant="outline-violet" className="mt-10">
+            Shop merch
           </ButtonLink>
         ) : null}
       </div>

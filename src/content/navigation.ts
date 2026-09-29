@@ -1,19 +1,21 @@
-import { withBase } from '@/lib/paths'
+import { pageHref, withBase } from '@/lib/paths'
 import type { NavItem } from './types'
 
-/** Main navigation. Labels match the design reference; each points at a real section. */
+/** Main navigation. Merch is its own page; everything else is a section of the home page. */
 export const mainNav: NavItem[] = [
   { label: 'Home', section: 'home' },
   { label: 'Music', section: 'music' },
-  { label: 'GFX / VFX (BMFX)', section: 'bmfx' },
+  { label: 'Merch', page: '/merch' },
   { label: 'Art', section: 'art' },
-  { label: 'Projects', section: 'projects' },
   { label: 'About', section: 'about' },
-  { label: 'Hire me', section: 'hire-me' },
 ]
-
-/** Section that "Get a quote", "Hire me" and service enquiries lead to. */
-export const ENQUIRY_SECTION = 'hire-me'
 
 /** Link to a home-page section for plain <a> elements (includes any base path). */
 export const sectionHref = (section: string) => withBase(`/#${section}`)
+
+/** Href for a nav item (section or separate page). */
+export const navHref = (item: NavItem) => (item.page ? pageHref(item.page) : sectionHref(item.section ?? 'home'))
+
+/** The merch page, used by every "Shop merch" call to action. */
+export const MERCH_PATH = '/merch'
+export const merchHref = () => pageHref(MERCH_PATH)

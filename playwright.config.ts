@@ -34,7 +34,5 @@ export default defineConfig({
         port,
         reuseExistingServer: true,
         timeout: 120_000,
-        // Email credentials are deliberately absent so the real "not configured" path is exercised.
-        env: { RESEND_API_KEY: '', ENQUIRY_FROM_EMAIL: '', ENQUIRY_TO_EMAIL: '' },
       },
 })

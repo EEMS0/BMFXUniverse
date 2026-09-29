@@ -4,12 +4,12 @@ import { notFound } from 'next/navigation'
 
 import { ArtImage } from '@/components/ui/ArtImage'
 import { ButtonLink } from '@/components/ui/Button'
-import { ArrowLeft } from '@/components/ui/Icons'
+import { ArrowLeft, BagIcon, Headphones } from '@/components/ui/Icons'
 import { ProjectMeta } from '@/components/work/ProjectMeta'
 import { artwork } from '@/content/artwork'
+import { merchHref, sectionHref } from '@/content/navigation'
 import { getPublicProject, publicProjects } from '@/content/projects'
 import { cn } from '@/lib/cn'
-import { IS_STATIC_PREVIEW } from '@/lib/paths'
 import { getSiteUrl } from '@/lib/site-url'
 
 export const dynamicParams = false
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: PageProps<'/work/[slug]'>): P
   return {
     title: project.title,
     description: `${project.title}: ${project.label}.`,
-    ...(getSiteUrl() && !IS_STATIC_PREVIEW ? { alternates: { canonical: `/work/${project.slug}` } } : {}),
+    ...(getSiteUrl() ? { alternates: { canonical: `/work/${project.slug}` } } : {}),
   }
 }
 
@@ -42,9 +42,9 @@ export default async function WorkPage({ params }: PageProps<'/work/[slug]'>) {
   return (
     <main id="main" tabIndex={-1} className="outline-none">
       <div className="shell py-10 sm:py-14">
-        <Link href="/#projects" className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-haze uppercase tracking-nav hover:text-acid">
+        <Link href="/#art" className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-haze uppercase tracking-nav hover:text-acid">
           <ArrowLeft className="size-4" />
-          All projects
+          All art
         </Link>
 
         <div className="mt-6 grid gap-10 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-start">
@@ -72,9 +72,15 @@ export default async function WorkPage({ params }: PageProps<'/work/[slug]'>) {
 
           <div className="lg:sticky lg:top-[calc(var(--header-height)+2rem)]">
             <ProjectMeta project={project} as="h1" />
-            <ButtonLink href="/#hire-me" clientNav variant="acid" className="mt-8">
-              Enquire about a project
-            </ButtonLink>
+            {project.categories.includes('merch-artwork') ? (
+              <ButtonLink href={merchHref()} variant="acid" className="mt-8" icon={<BagIcon className="size-5" />}>
+                Shop the merch
+              </ButtonLink>
+            ) : (
+              <ButtonLink href={sectionHref('music')} variant="outline-yellow" className="mt-8" icon={<Headphones className="size-5" />}>
+                Listen to EEMS
+              </ButtonLink>
+            )}
             <nav aria-label="More projects" className="mt-10 grid grid-cols-2 gap-3 border-t border-white/10 pt-6 text-sm">
               <Link href={`/work/${prev.slug}`} className="group rounded-lg border border-white/10 p-3 hover:border-violet/60">
                 <span className="eyebrow block">Previous</span>

@@ -1,11 +1,12 @@
 /**
- * The real public URL of the deployed site, from NEXT_PUBLIC_SITE_URL.
- * Returns null when it is unset or points at a local address in a production
+ * The real public URL of the deployed site: NEXT_PUBLIC_SITE_URL, or on Vercel
+ * the project's production domain, which Vercel provides itself. Returns null
+ * when neither is available or the URL is a local address in a production
  * build, so canonical URLs, the sitemap and social previews are only emitted
  * for the real domain — never localhost or a guessed domain.
  */
 export function getSiteUrl(): URL | null {
-  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim()
+  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim() || vercelProductionUrl()
   if (!raw) return null
   let url: URL
   try {
@@ -20,6 +21,15 @@ export function getSiteUrl(): URL | null {
   url.search = ''
   url.hash = ''
   return url
+}
+
+/**
+ * Vercel sets VERCEL_PROJECT_PRODUCTION_URL (a host name) on every build: the
+ * project's shortest custom domain, or its vercel.app address.
+ */
+function vercelProductionUrl(): string | undefined {
+  const host = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim()
+  return host ? `https://${host}` : undefined
 }
 
 /** Joins a site path onto the base URL, keeping any sub-folder (e.g. https://user.github.io/repo). */

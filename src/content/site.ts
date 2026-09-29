@@ -1,73 +1,59 @@
 /**
  * Site identity and public copy. Keep it short, personal and factual:
- * no invented credentials, clients, release dates, stats or guarantees.
+ * no invented credentials, release dates, stats or guarantees.
  */
 export const site = {
   name: 'EEMS',
-  studio: 'BMFX',
-  title: 'EEMS — music, visuals and BMFX design & video',
+  title: 'EEMS — music, art & merch',
   description:
-    'EEMS makes music and artwork. BMFX is the GFX/VFX side: graphic design, motion graphics, video editing and visual effects. Explore the work or send a project enquiry.',
+    'EEMS: music, artwork and merch. Press play on tracks from SoundCloud, shop the EEMS merch and explore the art.',
   tagline: 'Music. Visuals. Ideas. No Limits.',
-  intro: 'Music through EEMS. Design and video through BMFX. Welcome to my creative world.',
+  intro: 'Music, artwork and merch from EEMS. Welcome to my creative world.',
   annotation: 'Same brain. Different outlets.',
-  crtAnnotation: 'Visuals that hit different',
-  bmfxDescriptor: ['GFX / VFX', 'Motion', 'Editing', 'Design'],
+  /** Scroll-linked band under the hero (decorative). */
+  marquee: ['Music', 'Merch', 'Art', 'Visuals', 'No limits'],
 } as const
 
 export const copy = {
-  panels: {
-    music: {
-      heading: 'Music',
-      body: 'The EEMS side of things: the sound, plus the artwork that goes with it.',
-      cta: 'Explore music',
-    },
-    bmfx: {
-      heading: 'BMFX',
-      body: 'Need visuals that hit different? BMFX takes on graphic design, motion graphics, video editing and visual effects.',
-      cta: 'Hire me',
-    },
+  hero: {
+    posterNote: 'wear the art',
+    stickerHint: 'tap me',
+  },
+  merchFeature: {
+    eyebrow: 'EEMS merch',
+    heading: 'Merch',
+    body: 'Tees, hoodies and sweatpants featuring EEMS artwork.',
+    kinds: ['Tees', 'Hoodies', 'Sweatpants'],
+    cta: 'Shop the merch',
+    artworkLink: 'See the artwork up close',
+    checkout: 'Secure checkout with Shopify.',
   },
   music: {
-    eyebrow: 'EEMS',
+    eyebrow: 'Listen',
     heading: 'Music',
     body: [
       'EEMS is my artist name: music, plus the artwork that goes with it.',
-      'A new album is on the way. Artwork for merch connected to it is in the Art section.',
+      'Press play on a few tracks below — they stream straight from SoundCloud. A new album is on the way.',
     ],
-    listenHeading: 'Listen & follow',
-  },
-  bmfx: {
-    eyebrow: 'GFX / VFX company',
-    heading: 'BMFX',
-    descriptor: 'GFX / VFX / Design / Video',
-    body: 'BMFX is my GFX/VFX company for design and video work. Pick the kind of work you need and tell me about the project.',
-    workHeading: 'Selected visuals',
+    more: 'More on SoundCloud',
+    followHeading: 'Follow',
   },
   art: {
     eyebrow: 'EEMS',
-    heading: 'Art & merch',
-    body: 'Illustration and character art from the EEMS world, including artwork for merchandise connected to the upcoming album.',
-    merchCaption: 'Merch artwork for the upcoming album',
-  },
-  projects: {
-    heading: 'Projects',
-    body: 'Design, visuals, illustration and artwork. Select any piece to see it larger.',
+    heading: 'Art',
+    body: 'Illustration, artwork and visuals from the EEMS world. Select any piece to see it larger.',
   },
   about: {
-    heading: 'EEMS & BMFX',
+    eyebrow: 'About',
+    heading: 'EEMS',
     body: [
-      'I’m EEMS. I make music under that name, and I run BMFX, my GFX/VFX company, for design and video work.',
-      'Two sides of the same brain: the music, the artwork and the visuals all feed into each other.',
+      'I’m EEMS. I make music, and the art, visuals and merch that go with it.',
+      'Same brain, different outlets: the songs, the artwork and the merch all feed into each other.',
     ],
-  },
-  contact: {
-    eyebrow: 'BMFX enquiries',
-    heading: 'Hire me',
-    body: 'Tell me about your project: graphic design, motion graphics, video editing or visual effects. Budget and deadline are optional, so share whatever you know so far.',
-    socialPrompt: 'Prefer to message first?',
+    followHeading: 'Follow & say hi',
+    followNote: 'For anything else, send me a message on Instagram or TikTok.',
   },
   footer: {
-    tagline: 'Music through EEMS. Design and video through BMFX.',
+    tagline: 'Music. Visuals. Ideas. No Limits.',
   },
 } as const

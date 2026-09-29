@@ -1,12 +1,12 @@
 /**
- * Portfolio entries. Every public entry must use genuine supplied artwork and
+ * Art gallery entries. Every public entry must use genuine supplied artwork and
  * only confirmed facts — no invented briefs, clients, tools, dates or results.
  *
  * Adding work: add the artwork to artwork.ts, then add an entry here.
  * Future games and experiments use the 'games' / 'experiments' categories; a
  * category only appears in the gallery filters once it has a public entry.
  */
-import type { FeaturedItem, Project, ProjectCategory, PublicProject } from './types'
+import type { Project, ProjectCategory, PublicProject } from './types'
 
 export const projects: Project[] = [
   {
@@ -51,14 +51,6 @@ export const projects: Project[] = [
     images: ['symptoms'],
   },
   {
-    slug: 'bmfx-identity',
-    visibility: 'public',
-    title: 'BMFX',
-    label: 'Logo artwork for BMFX, shown on a CRT screen and on its own',
-    categories: ['design'],
-    images: ['bmfxCrt', 'bmfxLogo'],
-  },
-  {
     slug: 'eemsojis',
     visibility: 'public',
     title: 'Eemsojis',
@@ -97,16 +89,6 @@ export const projects: Project[] = [
     categories: ['games'],
     note: 'Game in development. Keep hidden until approved screenshots or media are supplied; do not invent release details.',
   },
-]
-
-/** The six tiles under the hero, in order. */
-export const featuredWork: FeaturedItem[] = [
-  { slug: 'eems-merch-artwork', title: 'EEMS', meta: 'Merch artwork' },
-  { slug: 'swag-bag', title: 'SWAG BAG', meta: 'Visuals' },
-  { slug: 'eems-glow', title: 'EEMS', meta: 'Visuals' },
-  { slug: 'pink-haired-character', title: 'Character', meta: 'Illustration' },
-  { slug: 'symptoms', title: 'SYMPTOMS', meta: 'Music artwork' },
-  { slug: 'bmfx-identity', title: 'BMFX', meta: 'Branding' },
 ]
 
 export const categoryLabels: Record<ProjectCategory, string> = {

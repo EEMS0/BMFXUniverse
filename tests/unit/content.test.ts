@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest'
 
 import { artwork } from '@/content/artwork'
-import { configuredSocialLinks, listenNowTarget, merchShopUrl, publicContactEmail, socialLinks } from '@/content/links'
-import { playableTracks, tracks } from '@/content/music'
-import { mainNav } from '@/content/navigation'
-import { categoriesWithEntries, featuredWork, getPublicProject, projects, publicProjects } from '@/content/projects'
-import { enquiryServiceIds, services } from '@/content/services'
+import { configuredSocialLinks, listenNowTarget, publicContactEmail, socialLinks } from '@/content/links'
+import { merch } from '@/content/merch'
+import { soundcloudApiUrl, soundcloudEmbedSrc, soundcloudProfileUrl, tracks } from '@/content/music'
+import { MERCH_PATH, mainNav, navHref, sectionHref } from '@/content/navigation'
+import { categoriesWithEntries, getPublicProject, projects, publicProjects } from '@/content/projects'
+import { copy, site } from '@/content/site'
 import type { ArtworkId } from '@/content/types'
-import { withBase } from '@/lib/paths'
 
 describe('artwork registry', () => {
   it('describes every artwork and records its supplied source file', () => {
@@ -17,9 +17,11 @@ describe('artwork registry', () => {
     }
   })
 
-  it('covers all 14 supplied originals', () => {
+  it('uses the 12 supplied EEMS originals and none of the BMFX artwork', () => {
     const sources = new Set(Object.values(artwork).map((art) => art.sourceFile))
-    expect(sources.size).toBe(14)
+    expect(sources.size).toBe(12)
+    expect(sources).not.toContain('BMFX-v3.png')
+    expect(sources).not.toContain('bmbm.png')
   })
 })
 
@@ -32,9 +34,10 @@ describe('projects', () => {
     }
   })
 
-  it('has unique slugs', () => {
+  it('has unique slugs and no BMFX entries', () => {
     const slugs = projects.map((project) => project.slug)
     expect(new Set(slugs).size).toBe(slugs.length)
+    expect(slugs.some((slug) => slug.includes('bmfx'))).toBe(false)
   })
 
   it('keeps Baked & Broke hidden and out of the filters until approved content exists', () => {
@@ -50,9 +53,10 @@ describe('projects', () => {
     }
   })
 
-  it('features six public projects under the hero', () => {
-    expect(featuredWork).toHaveLength(6)
-    for (const item of featuredWork) expect(getPublicProject(item.slug), item.slug).toBeDefined()
+  it('does not present SYMPTOMS as the upcoming album', () => {
+    const symptoms = getPublicProject('symptoms')
+    expect(symptoms).toBeDefined()
+    expect(JSON.stringify(symptoms)).not.toMatch(/upcoming|album/i)
   })
 })
 
@@ -71,41 +75,58 @@ describe('links and availability flags', () => {
     expect(configuredSocialLinks().map((link) => link.platform)).toEqual(['instagram', 'tiktok', 'soundcloud'])
   })
 
-  it('links merchandise to the shop on this website', () => {
-    expect(merchShopUrl).toBe(withBase('/merch.html'))
-  })
-
   it('points "Listen now" at the Music section by default', () => {
     expect(listenNowTarget).toEqual({ type: 'section' })
   })
 })
 
-describe('music', () => {
-  it('has no playable media until a real file or embed is configured', () => {
-    expect(tracks).toEqual([])
-    expect(playableTracks()).toEqual([])
+describe('SoundCloud tracks', () => {
+  it('embeds finished tracks from the EEMS SoundCloud profile only', () => {
+    expect(tracks.length).toBeGreaterThan(0)
+    for (const track of tracks) {
+      expect(track.url.startsWith(`${soundcloudProfileUrl}/`), track.title).toBe(true)
+      expect(track.trackId, track.title).toMatch(/^\d+$/)
+      expect(track.title, track.title).not.toMatch(/draft|test|snippet|demo/i)
+    }
+    expect(new Set(tracks.map((track) => track.trackId)).size).toBe(tracks.length)
   })
 
-  it('only treats tracks with a source as playable', () => {
-    expect(
-      playableTracks([
-        { title: 'No source' },
-        { title: 'File', audio: { src: '/audio/a.mp3', type: 'audio/mpeg' } },
-        { title: 'Embed', embed: { provider: 'soundcloud', src: 'https://w.soundcloud.com/player/?url=x', height: 166 } },
-      ]).map((track) => track.title),
-    ).toEqual(['File', 'Embed'])
+  it('builds the official player URL and never autoplays unless asked', () => {
+    const track = tracks[0]
+    const quiet = new URL(soundcloudEmbedSrc(track, { autoPlay: false }))
+    expect(quiet.origin + quiet.pathname).toBe('https://w.soundcloud.com/player/')
+    expect(quiet.searchParams.get('url')).toBe(soundcloudApiUrl(track))
+    expect(quiet.searchParams.get('auto_play')).toBe('false')
+    expect(quiet.searchParams.get('visual')).toBe('false')
+    expect(new URL(soundcloudEmbedSrc(track, { autoPlay: true })).searchParams.get('auto_play')).toBe('true')
   })
 })
 
-describe('navigation and services', () => {
-  it('keeps the reference navigation labels', () => {
-    expect(mainNav.map((item) => item.label.toUpperCase())).toEqual(['HOME', 'MUSIC', 'GFX / VFX (BMFX)', 'ART', 'PROJECTS', 'ABOUT', 'HIRE ME'])
+describe('merch', () => {
+  it('uses a public Storefront token for the store’s own myshopify domain', () => {
+    expect(merch.shopify.domain).toMatch(/^[a-z0-9-]+\.myshopify\.com$/)
+    // Buy Button tokens are 32 hex characters; Admin API tokens start with "shpat_".
+    expect(merch.shopify.storefrontAccessToken).toMatch(/^[0-9a-f]{32}$/)
+    expect(merch.shopify.collectionId).toMatch(/^\d+$/)
+    expect(merch.shopify.sdkUrl).toMatch(/^https:\/\/sdks\.shopifycdn\.com\//)
+    expect(decodeURIComponent(merch.shopify.moneyFormat)).toBe('£{{amount}}')
   })
 
-  it('shares service ids between the BMFX section and the enquiry form', () => {
-    const ids = services.map((service) => service.id)
-    expect(new Set(ids).size).toBe(ids.length)
-    for (const id of ids) expect(enquiryServiceIds).toContain(id)
-    expect(enquiryServiceIds).toContain('other')
+  it('shows the supplied merch artwork', () => {
+    expect(artwork[merch.artwork].sourceFile).toBe('BACK-MERCH.png')
+  })
+})
+
+describe('navigation and copy', () => {
+  it('is EEMS-only with Merch as its own page', () => {
+    expect(mainNav.map((item) => item.label)).toEqual(['Home', 'Music', 'Merch', 'Art', 'About'])
+    expect(mainNav.find((item) => item.label === 'Merch')?.page).toBe(MERCH_PATH)
+    expect(navHref(mainNav[1])).toBe(sectionHref('music'))
+    expect(navHref(mainNav[2])).toBe('/merch')
+  })
+
+  it('never mentions BMFX, hiring or enquiries', () => {
+    const text = JSON.stringify({ site, copy, mainNav, merch })
+    expect(text).not.toMatch(/bmfx|hire me|enquir/i)
   })
 })

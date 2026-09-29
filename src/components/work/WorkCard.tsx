@@ -1,6 +1,6 @@
 'use client'
 
-import type { MouseEvent } from 'react'
+import type { MouseEvent, PointerEvent } from 'react'
 
 import { artwork } from '@/content/artwork'
 import { getPublicProject } from '@/content/projects'
@@ -32,6 +32,8 @@ export interface WorkCardProps {
   /** Tailwind classes for the matte behind transparent artwork. */
   matte?: string
   loading?: 'eager' | 'lazy'
+  /** Unique view-transition name, so the card glides when a gallery re-orders. */
+  transitionName?: string
   className?: string
 }
 
@@ -49,8 +51,26 @@ export function useViewerLink(slug: string, list?: string[]) {
   return { href: workHref(slug), onClick, 'aria-haspopup': viewer ? ('dialog' as const) : undefined }
 }
 
+/** Tilt towards the mouse and move the card's spotlight (CSS ignores it for touch / reduced motion). */
+function trackPointer(event: PointerEvent<HTMLElement>) {
+  if (event.pointerType !== 'mouse') return
+  const el = event.currentTarget
+  const rect = el.getBoundingClientRect()
+  const px = (event.clientX - rect.left) / rect.width
+  const py = (event.clientY - rect.top) / rect.height
+  el.style.setProperty('--ry', `${((px - 0.5) * 10).toFixed(2)}deg`)
+  el.style.setProperty('--rx', `${((0.5 - py) * 10).toFixed(2)}deg`)
+  el.style.setProperty('--gx', `${(px * 100).toFixed(1)}%`)
+  el.style.setProperty('--gy', `${(py * 100).toFixed(1)}%`)
+}
+
+function resetPointer(event: PointerEvent<HTMLElement>) {
+  event.currentTarget.style.setProperty('--rx', '0deg')
+  event.currentTarget.style.setProperty('--ry', '0deg')
+}
+
 /** Artwork tile with a caption that opens the project viewer. */
-export function WorkCard({ slug, title, meta, list, sizes, frame = 'landscape', matte, loading, className }: WorkCardProps) {
+export function WorkCard({ slug, title, meta, list, sizes, frame = 'landscape', matte, loading, transitionName, className }: WorkCardProps) {
   const link = useViewerLink(slug, list)
   const project = getPublicProject(slug)
   if (!project) return null
@@ -59,9 +79,12 @@ export function WorkCard({ slug, title, meta, list, sizes, frame = 'landscape', 
   return (
     <a
       {...link}
+      onPointerMove={trackPointer}
+      onPointerLeave={resetPointer}
+      style={transitionName ? { viewTransitionName: transitionName } : undefined}
       className={cn(
-        'group relative block rounded-lg border border-white/10 bg-ink-850 p-1.5 shadow-card transition duration-300 ease-snap',
-        'hover:-translate-y-0.5 hover:border-violet/60 hover:shadow-violet focus-visible:border-acid',
+        'tilt spotlight group block rounded-lg border border-white/10 bg-ink-850 p-1.5 shadow-card transition-[border-color,box-shadow] duration-300 ease-snap',
+        'hover:border-violet/60 hover:shadow-violet focus-visible:border-acid',
         frame === 'fill' && 'md:flex md:h-full md:flex-col',
         className,
       )}
@@ -80,7 +103,7 @@ export function WorkCard({ slug, title, meta, list, sizes, frame = 'landscape', 
           sizes={sizes}
           loading={loading}
           className={cn(
-            'transition-transform duration-500 ease-snap group-hover:scale-[1.04]',
+            'transition-transform duration-500 ease-snap group-hover:scale-[1.05]',
             art.transparent ? 'object-contain p-[8%]' : 'object-cover',
           )}
         />

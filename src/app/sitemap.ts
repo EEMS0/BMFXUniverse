@@ -1,22 +1,23 @@
 import type { MetadataRoute } from 'next'
 
+import { MERCH_PATH } from '@/content/navigation'
 import { publicProjects } from '@/content/projects'
-import { IS_STATIC_PREVIEW } from '@/lib/paths'
 import { absoluteUrl, getSiteUrl } from '@/lib/site-url'
 
-// Built once at build time (required for the static GitHub Pages export).
+// Built once at build time (also required for static exports).
 export const dynamic = 'force-static'
 
-/** Lists pages only for the real production domain (NEXT_PUBLIC_SITE_URL), never for previews. */
+/** Lists pages only when the real public URL is configured (NEXT_PUBLIC_SITE_URL). */
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = getSiteUrl()
-  if (!base || IS_STATIC_PREVIEW) return []
+  if (!base) return []
   return [
     { url: absoluteUrl(base, '/'), changeFrequency: 'monthly', priority: 1 },
+    { url: absoluteUrl(base, MERCH_PATH), changeFrequency: 'weekly', priority: 0.9 },
     ...publicProjects.map((project) => ({
       url: absoluteUrl(base, `/work/${project.slug}`),
       changeFrequency: 'yearly' as const,
-      priority: 0.6,
+      priority: 0.5,
     })),
   ]
 }

@@ -1,16 +1,12 @@
-# Publishes a static preview of the site to GitHub Pages on every push to main.
+# Publishes a static copy of the site to GitHub Pages. The live site is on
+# Vercel, so this only runs when started by hand: Actions -> "Deploy preview to
+# GitHub Pages" -> Run workflow.
 #
 # One-time setup in the repository: Settings -> Pages -> Build and deployment ->
 # Source: "GitHub Actions".
-#
-# The preview is static: the enquiry form explains that it can't send messages
-# there. Deploy the full site (with the enquiry API) to a Node host such as
-# Vercel for real enquiries — see README.md.
 name: Deploy preview to GitHub Pages
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:

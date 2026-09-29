@@ -24,26 +24,6 @@
       "outputBytes": 292478
     },
     {
-      "output": "src/assets/art/bmfx-crt.webp",
-      "source": "BMFX-v3.png",
-      "sourceFormat": "png",
-      "sourceSize": "2048x2048",
-      "sourceSha256": "dc6327dba694f45474fe459bb17641933578c634ce39f0df0c650678a64cbe36",
-      "checksum": "verified",
-      "outputSize": "1600x1600",
-      "outputBytes": 836572
-    },
-    {
-      "output": "src/assets/art/bmfx-logo.webp",
-      "source": "bmbm.png",
-      "sourceFormat": "png",
-      "sourceSize": "2048x2048",
-      "sourceSha256": "4951932bb81212cdf9bf7b3bb139f2a7b913ae43eb9a9868d359370f81756984",
-      "checksum": "verified",
-      "outputSize": "1200x1041",
-      "outputBytes": 180292
-    },
-    {
       "output": "src/assets/art/merch-artwork.webp",
       "source": "BACK-MERCH.png",
       "sourceFormat": "png",

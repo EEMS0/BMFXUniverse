@@ -20,8 +20,7 @@
   "dependencies": {
     "next": "16.3.6",
     "react": "19.2.8",
-    "react-dom": "19.2.8",
-    "server-only": "^0.0.1"
+    "react-dom": "19.2.8"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
@@ -37,7 +36,7 @@
     "typescript": "^5",
     "vitest": "^5.0.2"
   },
-  "description": "EEMS / BMFX portfolio and enquiry website",
+  "description": "EEMS music, art and merch website",
   "engines": {
     "node": ">=20.9.0"
   }

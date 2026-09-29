@@ -4,7 +4,6 @@
  * Never put placeholder or guessed accounts here.
  */
 import type { SocialLink, SocialPlatform } from './types'
-import { withBase } from '@/lib/paths'
 
 export const socialLinks: SocialLink[] = [
   {
@@ -35,15 +34,12 @@ export const socialLinks: SocialLink[] = [
   { platform: 'youtube', label: 'YouTube', url: null, listen: true },
 ]
 
-/** Public contact email. When set, the enquiry form offers a clearly labelled mailto fallback. */
+/** Public contact email. When set, it appears in About and the footer as a mailto link. */
 export const publicContactEmail: string | null = null
 
-/** Merchandise shop. When set, the Art & merch section links to it. */
-export const merchShopUrl: string | null = withBase('/merch.html')
-
 /**
- * Where "Listen now" in the hero goes. Defaults to the Music section; set to a
- * configured platform (e.g. 'soundcloud') to link straight out instead.
+ * Where "Listen now" in the hero goes. Defaults to the Music section (with the
+ * embedded players); set to a configured platform to link straight out instead.
  */
 export const listenNowTarget: { type: 'section' } | { type: 'platform'; platform: SocialPlatform } = {
   type: 'section',

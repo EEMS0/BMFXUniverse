@@ -3,11 +3,11 @@
 import { createContext, type KeyboardEvent, type ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react'
 
 import { artwork } from '@/content/artwork'
-import { ENQUIRY_SECTION, sectionHref } from '@/content/navigation'
+import { merchHref, sectionHref } from '@/content/navigation'
 import { getPublicProject } from '@/content/projects'
 import { ArtImage } from '@/components/ui/ArtImage'
 import { buttonClasses } from '@/components/ui/Button'
-import { ArrowUpRight, ChevronLeft, ChevronRight, CloseIcon } from '@/components/ui/Icons'
+import { ArrowUpRight, BagIcon, ChevronLeft, ChevronRight, CloseIcon, Headphones } from '@/components/ui/Icons'
 import { cn } from '@/lib/cn'
 import { focusSection } from '@/lib/focus-section'
 import { workHref } from '@/lib/paths'
@@ -178,18 +178,25 @@ export function ProjectViewerProvider({ children }: { children: ReactNode }) {
                   Open this project’s page
                   <ArrowUpRight className="size-4" />
                 </a>
-                <a
-                  href={sectionHref(ENQUIRY_SECTION)}
-                  onClick={() => {
-                    skipFocusReturn.current = true
-                    close()
-                    focusSection(ENQUIRY_SECTION)
-                  }}
-                  className="inline-flex min-h-11 items-center gap-2 font-semibold text-acid underline-offset-4 hover:underline"
-                >
-                  Enquire about design or video work
-                  <ArrowUpRight className="size-4" />
-                </a>
+                {project.categories.includes('merch-artwork') ? (
+                  <a href={merchHref()} className="inline-flex min-h-11 items-center gap-2 font-semibold text-acid underline-offset-4 hover:underline">
+                    <BagIcon className="size-4" />
+                    Shop the merch
+                  </a>
+                ) : (
+                  <a
+                    href={sectionHref('music')}
+                    onClick={() => {
+                      skipFocusReturn.current = true
+                      close()
+                      focusSection('music')
+                    }}
+                    className="inline-flex min-h-11 items-center gap-2 font-semibold text-acid underline-offset-4 hover:underline"
+                  >
+                    <Headphones className="size-4" />
+                    Listen to EEMS
+                  </a>
+                )}
               </div>
             </aside>
 

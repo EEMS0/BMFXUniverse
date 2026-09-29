@@ -1,8 +1,8 @@
 import { copy, site } from '@/content/site'
 import { configuredSocialLinks, publicContactEmail } from '@/content/links'
-import { mainNav, sectionHref } from '@/content/navigation'
+import { mainNav, merchHref, navHref, sectionHref } from '@/content/navigation'
 import { ArtImage } from '@/components/ui/ArtImage'
-import { MailIcon, platformIcons } from '@/components/ui/Icons'
+import { BagIcon, MailIcon, platformIcons } from '@/components/ui/Icons'
 import { CurrentYear } from './CurrentYear'
 
 export function SiteFooter() {
@@ -14,15 +14,19 @@ export function SiteFooter() {
           <a href={sectionHref('home')} className="-ml-3 inline-block rounded-md" aria-label="EEMS — back to top">
             <ArtImage id="eemsWordmark" decorative sizes="160px" className="h-auto w-40" />
           </a>
-          <p className="mt-1 max-w-xs text-sm text-smoke">{copy.footer.tagline}</p>
+          <p className="font-hand mt-1 max-w-xs text-xl text-lilac">{copy.footer.tagline}</p>
+          <a href={merchHref()} className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full border border-pink/60 px-5 text-sm font-semibold tracking-nav text-pink uppercase transition-colors hover:bg-pink/10">
+            <BagIcon className="size-4" />
+            Shop merch
+          </a>
         </div>
 
         <nav aria-label="Footer">
           <p className="eyebrow mb-3">Explore</p>
           <ul className="grid grid-cols-2 gap-x-8 text-sm sm:grid-cols-3 lg:grid-cols-2">
             {mainNav.map((item) => (
-              <li key={item.section}>
-                <a href={sectionHref(item.section)} className="inline-flex min-h-11 items-center text-haze uppercase tracking-nav hover:text-acid">
+              <li key={item.label}>
+                <a href={navHref(item)} className="inline-flex min-h-11 items-center text-haze uppercase tracking-nav hover:text-acid">
                   {item.label}
                 </a>
               </li>
@@ -71,7 +75,6 @@ export function SiteFooter() {
           <p>
             © <CurrentYear fallback={new Date().getFullYear()} /> {site.name}. All rights reserved.
           </p>
-          <p>BMFX is the GFX/VFX side of {site.name}.</p>
         </div>
       </div>
     </footer>

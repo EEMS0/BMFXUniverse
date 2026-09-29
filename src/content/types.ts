@@ -4,8 +4,6 @@ import type { StaticImageData } from 'next/image'
 export type ArtworkId =
   | 'eemsWordmark'
   | 'eemsPortrait'
-  | 'bmfxCrt'
-  | 'bmfxLogo'
   | 'merchArtwork'
   | 'eemsCharacters'
   | 'swagBag'
@@ -66,21 +64,6 @@ export interface HiddenProject extends ProjectBase {
 
 export type Project = PublicProject | HiddenProject
 
-export interface FeaturedItem {
-  slug: string
-  /** Short caption shown under the tile. */
-  title: string
-  meta: string
-}
-
-export type ServiceId = 'graphic-design' | 'motion-graphics' | 'video-editing' | 'visual-effects'
-
-export interface Service {
-  id: ServiceId
-  name: string
-  summary: string
-}
-
 export type SocialPlatform = 'instagram' | 'tiktok' | 'soundcloud' | 'spotify' | 'youtube'
 
 export interface SocialLink {
@@ -96,16 +79,17 @@ export interface SocialLink {
 
 export interface NavItem {
   label: string
-  /** Section id on the home page. */
-  section: string
+  /** Section id on the home page (for scroll tracking), or undefined for a separate page. */
+  section?: string
+  /** Separate page path, e.g. '/merch'. */
+  page?: string
 }
 
-/** Optional playable media. Nothing renders unless a real file or embed is configured. */
-export interface Track {
+/** A public track on SoundCloud, played through SoundCloud's official embed. */
+export interface SoundCloudTrack {
   title: string
-  artwork?: ArtworkId
-  /** Self-hosted audio file, e.g. "/audio/track.mp3" placed in /public/audio. */
-  audio?: { src: string; type: 'audio/mpeg' | 'audio/ogg' | 'audio/wav' | 'audio/aac' }
-  /** Embeddable player URL from the platform's official "embed" option. */
-  embed?: { provider: 'soundcloud' | 'spotify' | 'youtube'; src: string; height: number }
+  /** Public track page, e.g. https://soundcloud.com/eems420/hunger */
+  url: string
+  /** Numeric SoundCloud track id (from the track's official embed code). */
+  trackId: string
 }

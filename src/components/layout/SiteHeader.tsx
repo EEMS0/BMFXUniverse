@@ -3,13 +3,16 @@
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 
-import { ENQUIRY_SECTION, mainNav, sectionHref } from '@/content/navigation'
 import { configuredSocialLinks } from '@/content/links'
+import { mainNav, merchHref, MERCH_PATH, navHref, sectionHref } from '@/content/navigation'
+import type { NavItem } from '@/content/types'
 import { ArtImage } from '@/components/ui/ArtImage'
 import { buttonClasses } from '@/components/ui/Button'
-import { CloseIcon, MenuIcon, platformIcons } from '@/components/ui/Icons'
+import { BagIcon, CloseIcon, MenuIcon, platformIcons } from '@/components/ui/Icons'
 import { cn } from '@/lib/cn'
 import { focusSection } from '@/lib/focus-section'
+
+const navKey = (item: NavItem) => item.page ?? item.section ?? item.label
 
 /** Tracks which home-page section is under the reading line. */
 function useActiveSection(enabled: boolean) {
@@ -17,7 +20,7 @@ function useActiveSection(enabled: boolean) {
   useEffect(() => {
     if (!enabled) return
     const sections = mainNav
-      .map((item) => document.getElementById(item.section))
+      .map((item) => (item.section ? document.getElementById(item.section) : null))
       .filter((el): el is HTMLElement => el !== null)
     const observer = new IntersectionObserver(
       (entries) => {
@@ -34,13 +37,16 @@ function useActiveSection(enabled: boolean) {
 export function SiteHeader() {
   const pathname = usePathname()
   const onHome = pathname === '/'
-  const active = useActiveSection(onHome)
+  const onMerch = pathname === MERCH_PATH || pathname === `${MERCH_PATH}/`
+  const activeSection = useActiveSection(onHome)
   const menuRef = useRef<HTMLDialogElement>(null)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const returnFocus = useRef(true)
   const [menuOpen, setMenuOpen] = useState(false)
   const socials = configuredSocialLinks()
+
+  const isCurrent = (item: NavItem) => (item.page ? onMerch && item.page === MERCH_PATH : activeSection === item.section)
 
   const openMenu = () => {
     returnFocus.current = true
@@ -54,11 +60,11 @@ export function SiteHeader() {
     if (returnFocus.current) menuButtonRef.current?.focus()
   }
 
-  /** Leaving the menu through a section link: close it and continue from that section. */
-  const navigateFromMenu = (section: string) => {
+  /** Leaving the menu through a link: close it and, for sections on this page, continue from there. */
+  const navigateFromMenu = (item: NavItem) => {
     returnFocus.current = false
     menuRef.current?.close()
-    if (onHome) focusSection(section)
+    if (onHome && item.section) focusSection(item.section)
   }
 
   // The menu is for small screens; close it if the viewport grows past the breakpoint.
@@ -81,16 +87,17 @@ export function SiteHeader() {
         <nav aria-label="Main" className="mx-auto hidden lg:block">
           <ul className="flex items-center gap-1 xl:gap-3">
             {mainNav.map((item) => {
-              const current = active === item.section
+              const current = isCurrent(item)
               return (
-                <li key={item.section}>
+                <li key={navKey(item)}>
                   <a
-                    href={sectionHref(item.section)}
-                    aria-current={current ? 'true' : undefined}
+                    href={navHref(item)}
+                    aria-current={current ? (item.page ? 'page' : 'true') : undefined}
                     className={cn(
-                      'relative inline-flex min-h-11 items-center px-2.5 text-[0.75rem] font-semibold tracking-nav whitespace-nowrap uppercase transition-colors',
-                      'after:absolute after:inset-x-2.5 after:bottom-1.5 after:h-0.5 after:rounded-full after:transition-transform after:duration-300',
-                      current ? 'text-acid after:scale-x-100 after:bg-acid' : 'text-haze after:scale-x-0 after:bg-acid hover:text-paper',
+                      'relative inline-flex min-h-11 items-center px-3 text-[0.8125rem] font-semibold tracking-nav whitespace-nowrap uppercase transition-colors',
+                      'after:absolute after:inset-x-3 after:bottom-1.5 after:h-0.5 after:rounded-full after:transition-transform after:duration-300',
+                      current ? 'text-acid after:scale-x-100 after:bg-acid' : 'text-haze after:scale-x-0 after:bg-acid hover:text-paper hover:after:scale-x-100',
+                      item.page && !current && 'text-pink',
                     )}
                   >
                     {item.label}
@@ -102,8 +109,9 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2 lg:ml-0">
-          <a href={sectionHref(ENQUIRY_SECTION)} className={buttonClasses('outline-acid', 'sm', 'hidden px-5 sm:inline-flex')}>
-            Get a quote
+          <a href={merchHref()} className={buttonClasses('acid', 'sm', 'gap-2 px-4 max-[379px]:hidden')}>
+            <BagIcon className="size-4" />
+            Shop merch
           </a>
           <button
             ref={menuButtonRef}
@@ -142,30 +150,31 @@ export function SiteHeader() {
           </div>
           <nav aria-label="Main" className="shell mt-4">
             <ul className="divide-y divide-white/10 border-y border-white/10">
-              {mainNav.map((item) => (
-                <li key={item.section}>
-                  <a
-                    href={sectionHref(item.section)}
-                    onClick={() => navigateFromMenu(item.section)}
-                    aria-current={active === item.section ? 'true' : undefined}
-                    className={cn(
-                      'flex min-h-14 items-center justify-between font-marker text-[1.7rem] transition-colors',
-                      active === item.section ? 'text-acid' : 'text-paper hover:text-acid',
-                    )}
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
+              {mainNav.map((item) => {
+                const current = isCurrent(item)
+                return (
+                  <li key={navKey(item)}>
+                    <a
+                      href={navHref(item)}
+                      onClick={() => navigateFromMenu(item)}
+                      aria-current={current ? (item.page ? 'page' : 'true') : undefined}
+                      className={cn(
+                        'flex min-h-14 items-center justify-between font-marker text-[1.8rem] transition-colors',
+                        current ? 'text-acid' : item.page ? 'text-pink hover:text-acid' : 'text-paper hover:text-acid',
+                      )}
+                    >
+                      {item.label}
+                      {item.page ? <BagIcon className="size-6" /> : null}
+                    </a>
+                  </li>
+                )
+              })}
             </ul>
           </nav>
           <div className="shell mt-8 flex flex-col gap-6 pb-10">
-            <a
-              href={sectionHref(ENQUIRY_SECTION)}
-              onClick={() => navigateFromMenu(ENQUIRY_SECTION)}
-              className={buttonClasses('acid', 'md', 'self-start')}
-            >
-              Get a quote
+            <a href={merchHref()} className={buttonClasses('acid', 'md', 'self-start')}>
+              <BagIcon className="size-5" />
+              Shop merch
             </a>
             {socials.length ? (
               <ul className="flex flex-wrap gap-2" aria-label="EEMS elsewhere">

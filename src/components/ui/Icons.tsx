@@ -61,6 +61,39 @@ export const Headphones = (props: IconProps) => (
   </Svg>
 )
 
+export const BagIcon = (props: IconProps) => (
+  <Svg {...props}>
+    <path d="M5 8h14l-1.2 12.2a1.5 1.5 0 0 1-1.5 1.3H7.7a1.5 1.5 0 0 1-1.5-1.3L5 8Z" />
+    <path d="M9 10.5V7a3 3 0 0 1 6 0v3.5" />
+  </Svg>
+)
+
+export const PlayIcon = (props: IconProps) => (
+  <Svg {...props}>
+    <path d="M8 5.5v13l10.5-6.5L8 5.5Z" fill="currentColor" />
+  </Svg>
+)
+
+export const PauseIcon = (props: IconProps) => (
+  <Svg {...props}>
+    <path d="M8 5.5v13M16 5.5v13" strokeWidth={3.2} />
+  </Svg>
+)
+
+export const NextIcon = (props: IconProps) => (
+  <Svg {...props}>
+    <path d="M6 6v12l8.5-6L6 6Z" fill="currentColor" />
+    <path d="M18 6v12" strokeWidth={2.4} />
+  </Svg>
+)
+
+export const ZoomIcon = (props: IconProps) => (
+  <Svg {...props}>
+    <circle cx="10.5" cy="10.5" r="6.5" />
+    <path d="m15.5 15.5 5 5M10.5 7.5v6M7.5 10.5h6" />
+  </Svg>
+)
+
 export const MenuIcon = (props: IconProps) => (
   <Svg {...props}>
     <path d="M4 7h16M4 12h16M4 17h11" />
@@ -73,23 +106,10 @@ export const CloseIcon = (props: IconProps) => (
   </Svg>
 )
 
-export const CheckIcon = (props: IconProps) => (
-  <Svg {...props}>
-    <path d="m5 12.5 4.5 4.5L19 7.5" />
-  </Svg>
-)
-
 export const AlertIcon = (props: IconProps) => (
   <Svg {...props}>
     <path d="M12 3.5 2.8 19.5h18.4L12 3.5Z" />
     <path d="M12 10v4.2M12 17.2v.1" />
-  </Svg>
-)
-
-export const InfoIcon = (props: IconProps) => (
-  <Svg {...props}>
-    <circle cx="12" cy="12" r="9" />
-    <path d="M12 11v5.5M12 7.6v.1" />
   </Svg>
 )
 

@@ -6,8 +6,6 @@
  * To replace a piece: swap the original, re-run `npm run art`, and update the
  * alt text below if the picture itself changed.
  */
-import bmfxCrt from '@/assets/art/bmfx-crt.webp'
-import bmfxLogo from '@/assets/art/bmfx-logo.webp'
 import characterPortrait from '@/assets/art/character-portrait.webp'
 import eemojiAnnoyed from '@/assets/art/eemoji-annoyed.webp'
 import eemojiGrin from '@/assets/art/eemoji-grin.webp'
@@ -34,18 +32,6 @@ export const artwork: Record<ArtworkId, Artwork> = {
     alt: 'Edited portrait of EEMS in an EEMS beanie, lit in red and blue',
     sourceFile: 'EEMS-ghoul.png',
     focal: '50% 35%',
-  },
-  bmfxCrt: {
-    src: bmfxCrt,
-    alt: 'BMFX logo in glowing green 3D letters circled by an orange ring, on the screen of a vintage CRT television',
-    sourceFile: 'BMFX-v3.png',
-    focal: '50% 50%',
-  },
-  bmfxLogo: {
-    src: bmfxLogo,
-    alt: 'BMFX logo: green 3D letters with an orange orbital ring',
-    sourceFile: 'bmbm.png',
-    transparent: true,
   },
   merchArtwork: {
     src: merchArtwork,

@@ -46,8 +46,6 @@ const ALPHA_WEBP = { quality: 88, alphaQuality: 92, effort: 6, smartSubsample: t
 const JOBS = [
   { out: 'eems-wordmark.webp', src: 'wallpaper.png', custom: buildWordmark },
   { out: 'eems-portrait.webp', src: 'EEMS-ghoul.png', max: 1174 },
-  { out: 'bmfx-crt.webp', src: 'BMFX-v3.png', max: 1600 },
-  { out: 'bmfx-logo.webp', src: 'bmbm.png', max: 1200, alpha: true, trimAlpha: true, pad: 24 },
   { out: 'merch-artwork.webp', src: 'BACK-MERCH.png', max: 2048 },
   { out: 'eems-characters.webp', src: 'Untitled45.png', max: 1600, alpha: true },
   { out: 'swag-bag.webp', src: 'swagbag-s3.png', max: 1600 },
@@ -110,7 +108,7 @@ async function main() {
   )
 
   if (existsSync(path.join(artDir, 'eems-wordmark.webp'))) await buildIcons()
-  if (['eems-wordmark.webp', 'eems-portrait.webp', 'bmfx-crt.webp'].every((f) => existsSync(path.join(artDir, f)))) {
+  if (['eems-wordmark.webp', 'eems-portrait.webp', 'merch-artwork.webp'].every((f) => existsSync(path.join(artDir, f)))) {
     await buildSocialPreview()
   }
   await buildGrain()
@@ -255,7 +253,7 @@ function toIco(images) {
   return Buffer.concat([header, ...entries, ...images.map(([, png]) => png)])
 }
 
-/** 1200x630 social preview composed only from the supplied wordmark, portrait and BMFX artwork. */
+/** 1200x630 social preview composed only from the supplied wordmark, portrait and merch artwork. */
 async function buildSocialPreview() {
   const W = 1200
   const H = 630
@@ -267,13 +265,17 @@ async function buildSocialPreview() {
     .png()
     .toBuffer()
   const portraitTilted = await sharp(portrait).rotate(-4, { background: { r: 0, g: 0, b: 0, alpha: 0 } }).toBuffer()
-  const crt = await sharp(path.join(artDir, 'bmfx-crt.webp')).resize(330, 330).toBuffer()
-  const crtTilted = await sharp(crt).rotate(3, { background: { r: 0, g: 0, b: 0, alpha: 0 } }).toBuffer()
+  const merchCore = await sharp(path.join(artDir, 'merch-artwork.webp')).resize(270, 360).toBuffer()
+  const merchPoster = await sharp({ create: { width: 286, height: 376, channels: 4, background: '#efe9df' } })
+    .composite([{ input: merchCore, left: 8, top: 8 }])
+    .png()
+    .toBuffer()
+  const merchTilted = await sharp(merchPoster).rotate(5, { background: { r: 0, g: 0, b: 0, alpha: 0 } }).toBuffer()
   await sharp({ create: { width: W, height: H, channels: 4, background: '#0b0a0f' } })
     .composite([
       { input: wordmark, left: -10, top: 120 },
-      { input: portraitTilted, left: 560, top: 70 },
-      { input: crtTilted, left: 850, top: 250 },
+      { input: portraitTilted, left: 520, top: 90 },
+      { input: merchTilted, left: 870, top: 150 },
     ])
     .flatten({ background: '#0b0a0f' })
     .jpeg({ quality: 84, mozjpeg: true })

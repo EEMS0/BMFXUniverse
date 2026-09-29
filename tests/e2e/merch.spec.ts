@@ -16,9 +16,18 @@ test.describe('merch page', () => {
     const shopify = await page.evaluate(() => (window as unknown as { __shopifyStub: unknown }).__shopifyStub)
     expect(shopify).toEqual({
       client: { domain: 'rfrjfs-u0.myshopify.com', storefrontAccessToken: expect.stringMatching(/^[0-9a-f]{32}$/) },
-      components: [{ type: 'collection', id: '695390503244', moneyFormat: '%C2%A3%7B%7Bamount%7D%7D' }],
+      components: [{ type: 'collection', id: '695390503244', moneyFormat: '%C2%A3%7B%7Bamount%7D%7D', background: '#060509' }],
     })
     expect(errors).toEqual([])
+  })
+
+  test('keeps the shop’s light text on a dark background in every browser', async ({ page }) => {
+    await page.goto('/merch')
+    // A frame whose colour scheme differs from the (dark) page gets an opaque
+    // white backdrop in Safari, which made the product text unreadable on iPhones.
+    const frame = page.locator('.shopify-buy-frame iframe')
+    await expect(frame).toHaveCSS('color-scheme', 'normal')
+    await expect(page.locator('#shop')).toHaveCSS('background-color', 'rgb(6, 5, 9)')
   })
 
   test('"Shop the collection" jumps to the products', async ({ page }) => {

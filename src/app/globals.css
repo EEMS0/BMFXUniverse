@@ -140,6 +140,16 @@
   [hidden] {
     display: none !important;
   }
+
+  /*
+   * Shopify's Buy Button frames (shop, cart, cart button) hold plain light-scheme
+   * documents. Safari and every iPhone browser paint an opaque white backdrop
+   * behind a frame whose colour scheme differs from the page's, and this page is
+   * dark, which hid the shop's light text. Matching schemes keeps them see-through.
+   */
+  .shopify-buy-frame iframe {
+    color-scheme: normal;
+  }
 }
 
 /* ------------------------------------------------------------------ */

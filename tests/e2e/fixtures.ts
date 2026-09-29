@@ -43,7 +43,20 @@ const shopifyStub = `(() => {
       onReady() {
         return Promise.resolve({
           createComponent(type, config) {
-            window.__shopifyStub.components.push({ type, id: config.id, moneyFormat: config.moneyFormat });
+            window.__shopifyStub.components.push({
+              type,
+              id: config.id,
+              moneyFormat: config.moneyFormat,
+              background: config.options.productSet.styles.productSet['background-color'],
+            });
+            // Like the real Buy Button: products live in an iframe inside a .shopify-buy-frame wrapper.
+            const wrapper = document.createElement('div');
+            wrapper.className = 'shopify-buy-frame shopify-buy-frame--productSet';
+            const frame = document.createElement('iframe');
+            frame.name = 'frame-productSet-stub';
+            frame.title = 'Products';
+            wrapper.appendChild(frame);
+            config.node.appendChild(wrapper);
             const product = document.createElement('p');
             product.textContent = 'Stub product: EEMS tee';
             config.node.appendChild(product);

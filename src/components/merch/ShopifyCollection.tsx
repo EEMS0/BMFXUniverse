@@ -40,6 +40,8 @@ function loadSdk(): Promise<ShopifyBuyGlobal> {
 }
 
 // Site palette for Shopify's product, cart and toggle frames.
+/** The shop section's background (ink-950), repeated inside Shopify's frame. */
+const shopBackground = '#060509'
 const ink = '#100e15'
 const paper = '#f3eee6'
 const haze = '#cdc6d9'
@@ -110,6 +112,9 @@ function collectionOptions(onRendered: () => void) {
     productSet: {
       events: { afterRender: onRendered },
       styles: {
+        // An opaque dark backing, so the light text stays readable even where a
+        // browser paints a white backdrop behind the frame (see globals.css).
+        productSet: { 'background-color': shopBackground },
         products: { [phone]: { 'margin-left': '-12px' }, [wide]: { 'margin-left': '-24px' } },
         paginationButton: { ...acidButton, 'background-color': 'transparent', color: paper, border: `1px solid ${line}` },
       },
